@@ -5,7 +5,7 @@ import AuthContext from '../../context/authContext'
 import classes from './MainNavigation.module.css'
 
 const MainNavigation = () => {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn, logout } = useContext(AuthContext)
 
   return (
     <header className={classes.header}>
@@ -25,7 +25,7 @@ const MainNavigation = () => {
                 <Link to='/profile'>Profile</Link>
               </li>
               <li>
-                <button>Logout</button>
+                <button onClick={logout}>Logout</button>
               </li>
             </>
           )}
