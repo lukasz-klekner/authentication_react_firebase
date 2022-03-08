@@ -10,7 +10,7 @@ const AuthContext = createContext({
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('auth'))
-  const { push } = useHistory()
+  const history = useHistory()
 
   const userIsLoggedIn = !!token
 
@@ -22,7 +22,7 @@ export const AuthContextProvider = ({ children }) => {
   const logout = () => {
     setToken(null)
     localStorage.removeItem('auth')
-    push('/')
+    history.push('/')
   }
 
   const contextValue = {
