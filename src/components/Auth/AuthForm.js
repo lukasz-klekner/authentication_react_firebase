@@ -1,10 +1,13 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useContext } from 'react'
 
+import AuthContext from '../../context/authContext'
 import classes from './AuthForm.module.css'
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+
+  const { login } = useContext(AuthContext)
 
   const emailRef = useRef()
   const passwordRef = useRef()
@@ -38,17 +41,20 @@ const AuthForm = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then((res) => {
-      setIsLoading(false)
-      if (res.ok) {
-        return res.json()
-      } else {
-        return res.json().then((data) => {
-          let errorMessage = 'Authentication failed!'
-          throw new Error(errorMessage)
-        })
-      }
     })
+      .then((res) => {
+        setIsLoading(false)
+        if (res.ok) {
+          return res.json()
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = 'Authentication failed!'
+            throw new Error(errorMessage)
+          })
+        }
+      })
+      .then((data) => login(data.idToken))
+      .catch((err) => alert(err.message))
   }
 
   return (
