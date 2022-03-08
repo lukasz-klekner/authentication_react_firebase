@@ -9,17 +9,19 @@ const AuthContext = createContext({
 })
 
 export const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem('auth'))
   const { push } = useHistory()
 
   const userIsLoggedIn = !!token
 
   const login = (token) => {
     setToken(token)
+    localStorage.setItem('auth', token)
   }
 
   const logout = () => {
     setToken(null)
+    localStorage.removeItem('auth')
     push('/')
   }
 
